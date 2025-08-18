@@ -1,0 +1,8 @@
+prefix=/home/foxy/major_project_ws/devel
+
+Name: autonomous_explorer
+Description: Description of autonomous_explorer
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

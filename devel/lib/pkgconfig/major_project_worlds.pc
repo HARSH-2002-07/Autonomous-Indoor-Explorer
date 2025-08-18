@@ -1,0 +1,8 @@
+prefix=/home/foxy/major_project_ws/devel
+
+Name: major_project_worlds
+Description: Description of major_project_worlds
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

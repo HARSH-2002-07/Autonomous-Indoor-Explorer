@@ -146,6 +146,8 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/foxy/major_project_ws/build/gtest/cmake_install.cmake")
+  include("/home/foxy/major_project_ws/build/major_project_worlds/cmake_install.cmake")
+  include("/home/foxy/major_project_ws/build/autonomous_explorer/cmake_install.cmake")
 
 endif()
 

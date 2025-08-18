@@ -2,4 +2,4 @@
 source_root_dir = '/home/foxy/major_project_ws/src'
 whitelisted_packages = ''.split(';') if '' != '' else []
 blacklisted_packages = ''.split(';') if '' != '' else []
-underlay_workspaces = '/home/foxy/ros_projects_ws/devel;/home/foxy/catkin_ws/devel;/opt/ros/noetic'.split(';') if '/home/foxy/ros_projects_ws/devel;/home/foxy/catkin_ws/devel;/opt/ros/noetic' != '' else []
+underlay_workspaces = '/home/foxy/major_project_ws/devel;/home/foxy/ros_projects_ws/devel;/home/foxy/catkin_ws/devel;/opt/ros/noetic'.split(';') if '/home/foxy/major_project_ws/devel;/home/foxy/ros_projects_ws/devel;/home/foxy/catkin_ws/devel;/opt/ros/noetic' != '' else []

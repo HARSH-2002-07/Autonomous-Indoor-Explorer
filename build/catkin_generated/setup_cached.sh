@@ -7,7 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/foxy/major_project_ws/devel:$CMAKE_PREFIX_PATH"
 export PWD='/home/foxy/major_project_ws/build'
-export ROSLISP_PACKAGE_DIRECTORIES="/home/foxy/major_project_ws/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
-export ROS_PACKAGE_PATH="/home/foxy/major_project_ws/src:$ROS_PACKAGE_PATH"
