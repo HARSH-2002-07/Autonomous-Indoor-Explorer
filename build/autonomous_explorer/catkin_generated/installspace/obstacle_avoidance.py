@@ -10,42 +10,41 @@ class ObstacleAvoidance:
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.cmd = Twist()
         self.rate = rospy.Rate(10)
-        self.turning = False
 
     def scan_callback(self, scan):
-        # ✅ Corrected sector indices
-        front = min(min(scan.ranges[0:15] + scan.ranges[-15:]), 10)
-        left  = min(scan.ranges[75:105], 10)
-        right = min(scan.ranges[255:285], 10)
+        # --- Corrected indexes based on your scan orientation ---
+        # Front at 180°, Left at 90°, Right at 270°
+        front = scan.ranges[180]
+        left  = scan.ranges[90]
+        right = scan.ranges[270]
+
+        # Safety clamp for inf/nan values
+        front = min(front, 10.0) if front != float('inf') else 10.0
+        left  = min(left, 10.0) if left != float('inf') else 10.0
+        right = min(right, 10.0) if right != float('inf') else 10.0
 
         rospy.loginfo("Front: %.2f | Left: %.2f | Right: %.2f", front, left, right)
 
-        safe_distance = 0.5  
+        # --- Parameters ---
+        safe_distance = 0.6    # Minimum distance before stopping
+        emergency_stop = 0.25  # Hard stop if too close
 
-        if front < safe_distance and not self.turning:
-            # 🚨 Obstacle ahead → back up a little + rotate more
-            self.turning = True
-            self.reverse_and_turn(left, right)
-        elif not self.turning:
-            # ✅ Path clear → move forward
+        # --- Obstacle avoidance logic ---
+        if front < emergency_stop:
+            # Immediate emergency stop
+            self.cmd.linear.x = 0.0
+            self.cmd.angular.z = 0.0
+            rospy.logwarn("!!! EMERGENCY STOP !!!")
+        elif front < safe_distance:
+            # Obstacle detected ahead → stop & turn
+            self.cmd.linear.x = 0.0
+            self.cmd.angular.z = 0.5 if right > left else -0.5
+        else:
+            # Path is clear → move forward
             self.cmd.linear.x = 0.2
             self.cmd.angular.z = 0.0
-            self.cmd_vel_pub.publish(self.cmd)
 
-    def reverse_and_turn(self, left, right):
-        # Step 1: small reverse
-        self.cmd.linear.x = -0.2
-        self.cmd.angular.z = 0.0
         self.cmd_vel_pub.publish(self.cmd)
-        rospy.sleep(0.5)   # back for 0.5s
-
-        # Step 2: stronger rotation
-        self.cmd.linear.x = 0.0
-        self.cmd.angular.z = 0.8 if right > left else -0.8
-        self.cmd_vel_pub.publish(self.cmd)
-        rospy.sleep(1.0)   # rotate for 1s
-
-        self.turning = False  # allow normal driving again
 
     def run(self):
         while not rospy.is_shutdown():
