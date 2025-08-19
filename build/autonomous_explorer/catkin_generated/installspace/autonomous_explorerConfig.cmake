@@ -187,7 +187,7 @@ foreach(t ${autonomous_explorer_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "")
+set(depends "geometry_msgs;nav_msgs;rospy;sensor_msgs;std_msgs")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

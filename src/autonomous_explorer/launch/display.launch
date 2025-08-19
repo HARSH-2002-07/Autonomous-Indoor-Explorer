@@ -3,8 +3,12 @@
   <param name="robot_description" 
          command="$(find xacro)/xacro '$(find autonomous_explorer)/urdf/autonomous_explorer.urdf.xacro'" />
 
-  <!-- Start Gazebo with an empty world (or your house.world later) -->
+  <!-- Pass the TurtleBot3 house world -->
+  <arg name="world_file" default="$(find turtlebot3_gazebo)/worlds/turtlebot3_house.world"/>
+
+  <!-- Start Gazebo with TurtleBot3 house world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
@@ -14,7 +18,7 @@
 
   <!-- Spawn the robot in Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen"
-        args="-param robot_description -urdf -model autonomous_explorer" />
+        args="-param robot_description -urdf -model autonomous_explorer -x -1 -y 1 -z 0 -Y 0" />
 
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
   </node>

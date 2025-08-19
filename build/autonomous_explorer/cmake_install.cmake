@@ -52,3 +52,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/autonomous_explorer" TYPE FILE FILES "/home/foxy/major_project_ws/src/autonomous_explorer/package.xml")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/autonomous_explorer" TYPE PROGRAM FILES "/home/foxy/major_project_ws/build/autonomous_explorer/catkin_generated/installspace/obstacle_avoidance.py")
+endif()
+
