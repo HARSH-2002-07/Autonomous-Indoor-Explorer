@@ -164,6 +164,7 @@
     <child link="left_wheel"/>
     <origin xyz="-0.1 0.17 -0.05" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
+    <dynamics damping="0.2" friction="0.1"/>
   </joint>
 
   <joint name="right_wheel_joint" type="continuous">
@@ -171,6 +172,7 @@
     <child link="right_wheel"/>
     <origin xyz="-0.1 -0.17 -0.05" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
+    <dynamics damping="0.2" friction="0.1"/>
   </joint>
 
   <joint name="caster_joint" type="fixed">
@@ -193,31 +195,32 @@
 
   <!-- GAZEBO PLUGINS -->
   <gazebo>
-  <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-    <updateRate>50</updateRate>
-    <leftJoint>left_wheel_joint</leftJoint>
-    <rightJoint>right_wheel_joint</rightJoint>
-    <wheelSeparation>0.34</wheelSeparation>
-    <wheelDiameter>0.1</wheelDiameter>
-    <wheelAcceleration>1.0</wheelAcceleration>
-    <wheelTorque>20</wheelTorque>
-    <commandTopic>cmd_vel</commandTopic>
-    <odometryTopic>odom</odometryTopic>
-    <odometryFrame>odom</odometryFrame>
-    <robotBaseFrame>base_link</robotBaseFrame>
-    <publishWheelTF>false</publishWheelTF>
-    <publishWheelJointState>true</publishWheelJointState>
-    <publishOdom>true</publishOdom>
-    <publishOdomTF>true</publishOdomTF>
-    <rosDebugLevel>na</rosDebugLevel>
-  </plugin>
-</gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <updateRate>50</updateRate>
+      <leftJoint>left_wheel_joint</leftJoint>
+      <rightJoint>right_wheel_joint</rightJoint>
+      <wheelSeparation>0.34</wheelSeparation>
+      <wheelDiameter>0.1</wheelDiameter>
+      <wheelAcceleration>1.0</wheelAcceleration>
+      <wheelTorque>20</wheelTorque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <publishWheelTF>false</publishWheelTF>
+      <publishWheelJointState>true</publishWheelJointState>
+      <publishOdom>true</publishOdom>
+      <publishOdomTF>true</publishOdomTF>
+      <rosDebugLevel>na</rosDebugLevel>
+      <commandTimeout>0.2</commandTimeout>
+      <legacyMode>false</legacyMode>
+    </plugin>
+  </gazebo>
 
   <!-- CPU-BASED LIDAR SENSOR (Compatible with Intel Graphics) -->
   <gazebo reference="lidar_link">
     <sensor type="ray" name="lidar_sensor">
       <pose>0 0 0.025 0 0 0</pose>
-      <visualize>true</visualize>
       <visualize>false</visualize>
       <update_rate>10</update_rate>
       <ray>
