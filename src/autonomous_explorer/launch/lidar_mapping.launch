@@ -1,0 +1,36 @@
+<launch>
+  <!-- Start RTAB-Map for LiDAR-only SLAM -->
+  <node pkg="rtabmap_slam" type="rtabmap" name="rtabmap" output="screen" args="--delete_db_on_start">
+    <param name="frame_id" value="base_link"/>       <!-- Robot base frame -->
+    <param name="map_frame_id" value="map"/>         <!-- Global map frame -->
+    <param name="odom_frame_id" value="odom"/>       <!-- Odometry frame -->
+    <param name="subscribe_depth" value="false"/>    <!-- Disable RGB-D -->
+    <param name="subscribe_rgb" value="false"/>      <!-- Disable camera -->
+    <param name="subscribe_scan" value="true"/>      <!-- Enable 2D laser scan -->
+    <param name="subscribe_scan_cloud" value="false"/>
+    <param name="subscribe_stereo" value="false"/>
+    <param name="subscribe_odom_info" value="false"/> <!-- Usually not needed for 2D SLAM -->
+
+    <!-- Topic remapping (adjust these to match your robot's topics) -->
+    <remap from="scan" to="/scan"/>                  <!-- Your LiDAR topic -->
+    <remap from="odom" to="/odom"/>                  <!-- Your odometry topic -->
+
+    <!-- SLAM params -->
+    <param name="RGBD/ProximityBySpace" value="true"/>
+    <param name="Reg/Strategy" value="1"/>           <!-- ICP scan matching -->
+    <param name="Icp/CorrespondenceRatio" value="0.3"/>
+    <param name="Grid/FromDepth" value="false"/>     <!-- Use 2D lidar grid -->
+    <param name="Grid/RangeMax" value="12"/>         <!-- Max range for occupancy grid -->
+    <param name="Grid/CellSize" value="0.05"/>       <!-- Grid resolution -->
+
+    <!-- Memory management -->
+    <param name="Mem/IncrementalMemory" value="true"/>
+    <param name="Mem/InitWMWithAllNodes" value="false"/>
+
+    <!-- Database management -->
+    <param name="database_path" value="~/.ros/rtabmap_lidar.db"/>
+  </node>
+
+  <!-- Visualization -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find rtabmap_launch)/launch/config/rgbd.rviz" required="false"/>
+</launch>

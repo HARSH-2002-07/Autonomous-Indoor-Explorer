@@ -1,8 +1,0 @@
-prefix=/home/foxy/major_project_ws/install
-
-Name: rtabmap_examples
-Description: Description of rtabmap_examples
-Version: 0.21.13
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: roscpp rtabmap_conversions message_filters
