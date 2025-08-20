@@ -8,4 +8,3 @@
 
 # modified environment variables
 export PWD='/home/foxy/major_project_ws/build'
-export PYTHONPATH="/home/foxy/major_project_ws/devel/lib/python3/dist-packages:$PYTHONPATH"
