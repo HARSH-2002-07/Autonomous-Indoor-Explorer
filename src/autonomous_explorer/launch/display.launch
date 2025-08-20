@@ -3,10 +3,10 @@
   <param name="robot_description" 
          command="$(find xacro)/xacro '$(find autonomous_explorer)/urdf/autonomous_explorer.urdf.xacro'" />
 
-  <!-- Pass the TurtleBot3 house world -->
+  <!-- World file -->
   <arg name="world_file" default="$(find turtlebot3_gazebo)/worlds/turtlebot3_house.world"/>
 
-  <!-- Start Gazebo with TurtleBot3 house world -->
+  <!-- Start Gazebo with chosen world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_file)"/>
     <arg name="paused" value="false"/>
@@ -16,18 +16,29 @@
     <arg name="debug" value="false"/>
   </include>
 
-  <!-- Spawn the robot in Gazebo -->
+  <!-- Spawn robot -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen"
         args="-param robot_description -urdf -model autonomous_explorer -x -1 -y 1 -z 0 -Y 0" />
 
-        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-  </node>
+  <!-- Joint states -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
   <!-- Robot State Publisher -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
     <param name="publish_frequency" type="double" value="50.0"/>
   </node>
 
-  <!-- RViz for visualization -->
+  <!-- RTAB-Map for LiDAR SLAM -->
+  <node pkg="rtabmap_ros" type="rtabmap" name="rtabmap" output="screen">
+    <param name="frame_id" type="string" value="base_link"/>
+    <param name="map_update_interval" type="double" value="3.0"/>
+    <param name="subscribe_depth" type="bool" value="false"/>
+    <param name="subscribe_rgb" type="bool" value="false"/>
+    <param name="subscribe_scan" type="bool" value="true"/>
+    <remap from="scan" to="/scan"/>
+    <remap from="odom" to="/odom"/>
+  </node>
+
+  <!-- RViz with config -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autonomous_explorer)/rviz/autonomous_explorer.rviz" />
 </launch>
