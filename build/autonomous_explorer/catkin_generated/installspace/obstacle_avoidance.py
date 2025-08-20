@@ -3,7 +3,6 @@ import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 import math
-import numpy as np
 
 class ObstacleAvoidance:
     def __init__(self):
@@ -14,16 +13,15 @@ class ObstacleAvoidance:
         self.rate = rospy.Rate(10)
 
         # Parameters
-        self.safe_distance = 0.6
-        self.emergency_stop = 0.25
-        self.forward_speed = 0.25
+        self.safe_distance = 0.6      # below this, turn
+        self.emergency_stop = 0.25    # below this, stop
+        self.max_speed = 0.4          # maximum forward speed
+        self.min_speed = 0.1          # minimum crawl speed
         self.turn_speed = 0.5
 
     def scan_callback(self, scan):
-        ranges = np.array(scan.ranges)
-        ranges[np.isnan(ranges)] = 10.0
-        ranges[np.isinf(ranges)] = 10.0
-
+        # Replace inf/nan with a large distance (10m)
+        ranges = [10.0 if (math.isinf(r) or math.isnan(r)) else r for r in scan.ranges]
         total = len(ranges)
 
         # Helper: convert angle to index
@@ -32,7 +30,7 @@ class ObstacleAvoidance:
             index = int((angle_rad - scan.angle_min) / scan.angle_increment)
             return max(0, min(total - 1, index))
 
-        # Divide into regions
+        # Regions
         front_angles = list(range(-15, 16))   # -15° to +15°
         left_angles  = list(range(45, 75))    # 45° to 75°
         right_angles = list(range(-75, -45))  # -75° to -45°
@@ -49,7 +47,6 @@ class ObstacleAvoidance:
 
         # --- Decision logic ---
         if front < self.emergency_stop:
-            # Emergency halt
             self.stop()
             rospy.logwarn("!!! EMERGENCY STOP !!!")
 
@@ -69,12 +66,20 @@ class ObstacleAvoidance:
             self.turn(clockwise=False)
 
         else:
-            self.move_forward()
+            self.move_forward(front)
 
-    def move_forward(self):
-        self.cmd.linear.x = self.forward_speed
+    def move_forward(self, front_distance):
+        # Dynamic speed scaling (linear interpolation)
+        speed = self.min_speed
+        if front_distance > self.safe_distance:
+            # Scale speed between min_speed and max_speed based on distance
+            scale = min(front_distance / 2.0, 1.0)  # cap scaling at 2m
+            speed = self.min_speed + (self.max_speed - self.min_speed) * scale
+
+        self.cmd.linear.x = speed
         self.cmd.angular.z = 0.0
         self.cmd_vel_pub.publish(self.cmd)
+        rospy.loginfo("Moving forward at speed: %.2f", speed)
 
     def stop(self):
         self.cmd.linear.x = 0.0
