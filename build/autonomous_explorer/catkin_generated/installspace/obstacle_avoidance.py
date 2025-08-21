@@ -13,7 +13,7 @@ class ObstacleAvoidance:
         self.rate = rospy.Rate(10)
 
         # Parameters
-        self.safe_distance = 0.6      # below this, turn
+        self.safe_distance = 0.4      # below this, turn
         self.emergency_stop = 0.25    # below this, stop
         self.max_speed = 0.4          # maximum forward speed
         self.min_speed = 0.1          # minimum crawl speed
