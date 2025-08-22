@@ -30,8 +30,37 @@
   <!-- Move Base with explicit parameters -->
   <node name="move_base" pkg="move_base" type="move_base" output="screen">
     <!-- Load common costmap parameters for both global and local -->
+
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    <param name="planner_frequency" value="1.0"/>
+    <param name="planner_patience" value="5.0"/>
+    
+    <!-- Global Planner specific parameters -->
+    <rosparam ns="GlobalPlanner">
+      allow_unknown: false
+      use_dijkstra: true
+      use_quadratic: true
+      use_grid_path: false
+      old_navfn_behavior: false
+      lethal_cost: 253
+      neutral_cost: 50
+      cost_factor: 3.0
+      publish_potential: false
+    </rosparam>
+
     <rosparam file="$(find autonomous_explorer)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
     <rosparam file="$(find autonomous_explorer)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <!-- Move Base Parameters -->
+    <param name="controller_frequency" value="10.0"/>
+    <param name="planner_patience" value="5.0"/>
+    <param name="controller_patience" value="3.0"/>
+    <param name="conservative_reset_dist" value="3.0"/>
+    <param name="clearing_rotation_allowed" value="false"/>
+    <param name="shutdown_costmaps" value="false"/>
+    <param name="oscillation_timeout" value="10.0"/>
+    <param name="oscillation_distance" value="0.2"/>
+    <param name="planner_frequency" value="1.0"/>
+    <param name="max_planning_retries" value="3"/>
     
     <!-- Load local costmap specific parameters -->
     <rosparam file="$(find autonomous_explorer)/config/local_costmap_params.yaml" command="load"/>
@@ -55,6 +84,7 @@
     <!-- Remap to use map_server's map -->
     <remap from="map" to="map"/>
   </node>
+  
 
   <!-- RViz -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" required="true"/>

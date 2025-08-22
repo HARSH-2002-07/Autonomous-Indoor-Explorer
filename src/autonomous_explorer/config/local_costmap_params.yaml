@@ -1,10 +1,38 @@
 local_costmap:
   global_frame: odom
   robot_base_frame: base_link
-  update_frequency: 5.0
-  publish_frequency: 2.0
+  update_frequency: 10.0
+  publish_frequency: 5.0
   static_map: false
   rolling_window: true
-  width: 3.0
-  height: 3.0
+  
+  # Size of local costmap
+  width: 4.0                 # 4m x 4m window around robot
+  height: 4.0
   resolution: 0.05
+  
+  # Layer-specific parameters
+  plugins:
+    - {name: obstacle_layer,          type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
+
+  # Obstacle layer for local costmap
+  obstacle_layer:
+    enabled: true
+    observation_sources: scan
+    scan:
+      topic: /scan
+      data_type: LaserScan
+      clearing: true
+      marking: true
+      max_obstacle_height: 2.0
+      min_obstacle_height: 0.0
+      obstacle_range: 2.5
+      raytrace_range: 3.0
+      inf_is_valid: false
+
+  # Inflation for local costmap (can be more aggressive)
+  inflation_layer:
+    enabled: true
+    cost_scaling_factor: 10.0  # More conservative in local planning
+    inflation_radius: 0.3

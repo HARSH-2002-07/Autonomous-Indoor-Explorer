@@ -1,11 +1,45 @@
-TrajectoryPlannerROS:
-  max_vel_x: 0.5
-  min_vel_x: 0.1
-  max_vel_theta: 1.0
-  min_in_place_vel_theta: 0.4
-
-  acc_lim_x: 1.0
-  acc_lim_y: 0.0
-  acc_lim_theta: 1.0
-
-  holonomic_robot: false
+# DWA Local Planner Parameters
+DWAPlannerROS:
+  # Robot Configuration - Adjust based on your robot
+  max_vel_x: 0.5              # Maximum forward velocity
+  min_vel_x: 0.0              # Minimum forward velocity (0 for differential drive)
+  max_vel_y: 0.0              # Maximum strafe velocity (0 for differential drive)
+  min_vel_y: 0.0              # Minimum strafe velocity
+  
+  # Rotational velocities
+  max_rot_vel: 1.0            # Maximum rotational velocity
+  min_rot_vel: 0.4            # Minimum rotational velocity
+  
+  # Acceleration limits
+  acc_lim_x: 2.0              # Maximum acceleration in x
+  acc_lim_y: 0.0              # Maximum acceleration in y (0 for differential drive)
+  acc_lim_theta: 2.0          # Maximum angular acceleration
+  
+  # Goal tolerance
+  xy_goal_tolerance: 0.15     # How close to goal position (meters)
+  yaw_goal_tolerance: 0.1     # How close to goal orientation (radians)
+  latch_xy_goal_tolerance: false
+  
+  # Trajectory sampling
+  sim_time: 1.5               # Time to simulate trajectories forward
+  sim_granularity: 0.025      # Step size for trajectory simulation
+  vx_samples: 20              # Number of velocity samples in x
+  vy_samples: 1               # Number of velocity samples in y (1 for diff drive)
+  vth_samples: 20             # Number of angular velocity samples
+  
+  # Path distance vs goal distance vs obstacle cost weights
+  path_distance_bias: 64.0    # Weight for staying close to planned path
+  goal_distance_bias: 24.0    # Weight for getting closer to goal
+  occdist_scale: 0.5          # Weight for avoiding obstacles
+  forward_point_distance: 0.325  # Distance from robot center to additional scoring point
+  stop_time_buffer: 0.2       # Time buffer for stopping
+  scaling_speed: 0.25         # Speed at which to start scaling the robot's footprint
+  max_scaling_factor: 0.2     # Maximum factor to scale the robot's footprint
+  
+  # Oscillation prevention
+  oscillation_reset_dist: 0.25  # Distance to travel before oscillation flags reset
+  
+  # Debugging
+  publish_traj_pc: true
+  publish_cost_grid_pc: false
+  global_frame_id: odom
