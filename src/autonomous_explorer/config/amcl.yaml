@@ -1,0 +1,38 @@
+# AMCL minimal config for ROS1 Noetic
+# File: amcl.yaml
+
+# Robot motion model
+odom_model_type: diff
+odom_alpha1: 0.2
+odom_alpha2: 0.2
+odom_alpha3: 0.2
+odom_alpha4: 0.2
+
+# Odometry parameters
+odom_frame_id: "odom"
+base_frame_id: "base_link"
+global_frame_id: "map"
+
+# Laser parameters
+laser_max_range: 12.0
+laser_min_range: 0.2
+laser_z_hit: 0.95
+laser_z_rand: 0.05
+laser_sigma_hit: 0.2
+
+# Particle filter parameters
+min_particles: 500
+max_particles: 2000
+kld_err: 0.05
+kld_z: 0.99
+
+recovery_alpha_slow: 0.001  # Slow recovery rate
+recovery_alpha_fast: 0.1
+
+# Initial pose (can be overridden by RViz "2D Pose Estimate")
+initial_pose_x: 0.0
+initial_pose_y: 0.0
+initial_pose_a: 0.0
+initial_cov_xx: 0.5
+initial_cov_yy: 0.5
+initial_cov_aa: 0.5

@@ -1,0 +1,20 @@
+<launch>
+  <!-- Argument for map -->
+  <arg name="map_file" default="$(find autonomous_explorer)/maps/mymap.yaml"/>
+
+  <!-- Start map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- Run AMCL for localization -->
+  <include file="$(find autonomous_explorer)/launch/amcl.launch">
+    <arg name="map_file" value="$(arg map_file)"/>
+  </include>
+
+  <!-- Move Base (path planning + control) -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <rosparam file="$(find autonomous_explorer)/config/costmap_common_params.yaml" command="load"/>
+    <rosparam file="$(find autonomous_explorer)/config/local_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find autonomous_explorer)/config/global_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find autonomous_explorer)/config/base_local_planner_params.yaml" command="load"/>
+  </node>
+</launch>
