@@ -17,8 +17,8 @@ DWAPlannerROS:
   
   # Goal tolerance
   xy_goal_tolerance: 0.15     # How close to goal position (meters)
-  yaw_goal_tolerance: 0.1     # How close to goal orientation (radians)
-  latch_xy_goal_tolerance: false
+  yaw_goal_tolerance: 0.2     # How close to goal orientation (radians)
+  latch_xy_goal_tolerance: true
   
   # Trajectory sampling
   sim_time: 1.5               # Time to simulate trajectories forward
