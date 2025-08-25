@@ -64,9 +64,13 @@ major_project_ws/
 Clone this repo and build the workspace:
 
 git clone git@github.com:HARSH-2002-07/Autonomous-Indoor-Explorer.git
+
 cd Autonomous-Indoor-Explorer/major_project_ws
+
 catkin_make
+
 source devel/setup.bash
+
 
 
 Then launch the simulation with:
