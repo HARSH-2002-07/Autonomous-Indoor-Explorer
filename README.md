@@ -1,57 +1,63 @@
 🚀 Autonomous Indoor Explorer
 
-A ROS1 (Noetic) project for building and simulating an autonomous indoor exploration robot.
+A ROS1 Noetic project for building and simulating an autonomous indoor exploration robot.
 
 📌 Project Overview
 
-This project is part of my robotics journey where I design and implement an indoor mobile robot capable of autonomous navigation and mapping.
-Unlike my minor project, here I am building both the robot and the world from scratch, ensuring a complete hands-on experience with ROS1 and Gazebo.
+This project is part of my robotics journey where I design and implement an indoor mobile robot capable of mapping, localization, and navigation.
 
-The project is structured in stages to ensure smooth development and tracking of progress.
+Unlike my minor project, this time I have built both the robot and the simulation world from scratch, ensuring a complete hands-on experience with ROS1 and Gazebo.
+The development is broken into stages for structured progress and better tracking.
 
 🛠️ Tech Stack
 
-ROS1 Noetic
+ROS1 (Noetic) – middleware for robotics
 
-Gazebo (for simulation)
+Gazebo – simulation environment
 
-RViz (for visualization)
+RViz – visualization & navigation goals
 
-Python (rospy)
+Python (rospy) – scripting & automation
 
-Git & GitHub (for version control)
+Git + GitHub – version control
 
 📂 Repository Structure
 major_project_ws/
 │── src/
-│   └── autonomous_explorer/   # Main package for robot + world + launch files
+│   └── autonomous_explorer/   # Main package (robot, world, launch files)
 │── build/
 │── devel/
 └── README.md
 
-🔑 Features (Planned)
+🔑 Features
 
-✔️ Custom Gazebo world
-✔️ Custom robot model (URDF + sensors)
-✔️ Teleoperation support
-✔️ Mapping & Localization
-✔️ Path Planning & Autonomous Navigation
+✔️ Custom Gazebo world 🌍
+
+✔️ Custom robot model (URDF + sensors) 🤖
+
+✔️ Teleoperation support 🎮
+
+✔️ Mapping & Localization 🗺️
+
+✔️ Path Planning & Navigation 🚦
+
+⏳ Automated Exploration (next phase)
 
 📌 Development Stages
 
-Stage 1 – Workspace setup & repo initialization ✅
+✅ Workspace setup & repo initialization
 
-Stage 2 – Create custom Gazebo world 🌍
+✅ Create custom Gazebo world
 
-Stage 3 – Build robot model (URDF + sensors) 🤖
+✅ Build robot model (URDF + sensors)
 
-Stage 4 – Teleop control & testing 🎮
+✅ Teleop control & testing
 
-Stage 5 – SLAM integration 🗺️
+✅ SLAM integration
 
-Stage 6 – Navigation stack 🚦
+✅ Navigation stack integration
 
-Stage 7 – Final integration & documentation 📖
+🔄 Final integration & documentation
 
 🚦 How to Run
 
@@ -61,6 +67,11 @@ git clone git@github.com:HARSH-2002-07/Autonomous-Indoor-Explorer.git
 cd Autonomous-Indoor-Explorer/major_project_ws
 catkin_make
 source devel/setup.bash
+
+
+Then launch the simulation with:
+
+roslaunch autonomous_explorer bringup.launch
 
 👤 Author
 
